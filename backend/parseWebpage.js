@@ -18,9 +18,12 @@ export default async function parseWebpage(url) {
   const readabilifiedDOM = new JSDOM(article.content);
 
   let textEls = [];
-  readabilifiedDOM.window.document.querySelectorAll("p, h3").forEach(textEl => {
-    textEls.push(textEl.innerHTML);
-  });
+  readabilifiedDOM.window.document
+    .querySelectorAll("p, h3")
+    .forEach((textEl) => {
+      const t = textEl.tagName.toLowerCase();
+      textEls.push(`<${t}>${textEl.innerHTML}</${t}>`);
+    });
 
   return textEls;
 }
