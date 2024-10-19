@@ -35,6 +35,13 @@ for (const para of paragraphs) {
 
 console.log(outputs);
 
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  next();
+});
+
 app.get("/", (req, res) => {
   let sendworthyJSON = [];
 
