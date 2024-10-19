@@ -1,33 +1,48 @@
-import "dotenv/config";
 import express from "express";
-import generateCardWithAI from "./fetchAIResponse.js";
+import generateCardWithAI from "./generateCardWithAI.js";
 import parseWebpage from "./parseWebpage.js";
 
 const app = express();
 const port = 3000;
 
 const textEls = await parseWebpage(
-  // "https://dri.es/my-solar-powered-and-self-hosted-website"
-  "http://www.catb.org/~esr/faqs/things-every-hacker-once-knew/"
+  "https://dri.es/my-solar-powered-and-self-hosted-website"
+  // "http://www.catb.org/~esr/faqs/things-every-hacker-once-knew/"
 );
 
 const paragraph1 = textEls.slice(0, 4).join("\n");
-console.log(paragraph1);
 
-const cards = await generateCardWithAI(paragraph1);
+let paragraphs = [];
 
-console.log(cards);
+let i = 1;
+let currentParagraph = "";
+while (textEls.length > 0) {
+  if (i % 8 === 0) {
+    paragraphs.push(currentParagraph);
+    currentParagraph = "";
+  } else currentParagraph += textEls.shift();
+  i++;
+}
+if (currentParagraph.length > 0) paragraphs.push(currentParagraph);
 
-const cardElement = card => `
-<div class="card">
-    <h3> ${card.front} </h3>
-    <p> ${card.back} </p>
-</div>
-`;
+let outputs = [];
+
+for (const para of paragraphs) {
+  const l = await generateCardWithAI(para);
+  console.log(l);
+  outputs.push(l);
+}
+
+console.log(outputs);
 
 app.get("/", (req, res) => {
-  const cardEls = cards.map(card => cardElement(card)).join("<br />");
-  res.send(paragraph1 + "<hr />" + cardEls);
+  let sendworthyJSON = [];
+
+  for (const i in paragraphs) {
+    sendworthyJSON.push(paragraphs[i]);
+    sendworthyJSON.push(outputs[i]);
+  }
+  res.json(sendworthyJSON);
 });
 
 app.listen(port, () => {
