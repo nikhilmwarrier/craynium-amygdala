@@ -28,7 +28,7 @@ if (currentParagraph.length > 0) paragraphs.push(currentParagraph);
 let outputs = [];
 
 for (const para of paragraphs) {
-  const l = await generateCardWithAI(para);
+  const l = JSON.parse(await generateCardWithAI(para));
   console.log(l);
   outputs.push(l);
 }
