@@ -42,14 +42,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get("/", (req, res) => {
-  let sendworthyJSON = [];
+app.get("/text", (req, res) => {
+  res.json(paragraphs);
+});
 
-  for (const i in paragraphs) {
-    sendworthyJSON.push(paragraphs[i]);
-    sendworthyJSON.push(outputs[i]);
-  }
-  res.json(sendworthyJSON);
+app.get("/questions", (_, res) => {
+  res.json(outputs);
 });
 
 app.listen(port, () => {
