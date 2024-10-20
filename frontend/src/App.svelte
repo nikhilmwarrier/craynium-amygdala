@@ -1,6 +1,7 @@
 <script>
   import { writable } from "svelte/store";
   import Cards from "./lib/Cards.svelte";
+  import Footer from "./lib/Footer.svelte";
 
   let data = {};
 
@@ -54,7 +55,7 @@
   </form>
 </section>
 
-<main class="mx-auto my-15 max-w-screen-sm w-9/12">
+<main class="mx-auto my-15 max-w-screen-sm w-9/12 min-h-screen">
   <h2 class="text-3xl font-bold text-amber-900">
     {#if data.title}
       {data.title}
@@ -80,3 +81,5 @@
     </p>
   {/if}
 </main>
+
+<Footer />
