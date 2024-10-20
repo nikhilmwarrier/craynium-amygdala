@@ -19,11 +19,17 @@ export default async function parseWebpage(url) {
 
   let textEls = [];
   readabilifiedDOM.window.document
-    .querySelectorAll("p, h3")
+    .querySelectorAll("p, h3, img")
     .forEach((textEl) => {
       const t = textEl.tagName.toLowerCase();
-      textEls.push(`<${t}>${textEl.innerHTML}</${t}>`);
+      if (t === "img") {
+        textEls.push(
+          `<img src="${textEl.getAttribute("src")}" alt="${textEl.getAttribute(
+            "alt"
+          )}" />`
+        );
+      } else textEls.push(`<${t}>${textEl.innerHTML}</${t}>`);
     });
 
-  return textEls;
+  return { title: article.title, textEls };
 }
