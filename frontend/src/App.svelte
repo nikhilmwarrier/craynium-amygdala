@@ -11,7 +11,7 @@
     const questionsResponse = await questionsPromise;
     $questions = await questionsResponse.json();
     $questions = $questions.flatMap((el, i) =>
-      el.map(qn => ({ front: qn.front, back: qn.back, box: i }))
+      el.map(qn => ({ front: qn.front, back: qn.back, box: 1 }))
     );
   };
   loadQuestions();
