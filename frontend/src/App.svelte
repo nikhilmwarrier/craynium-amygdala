@@ -9,7 +9,9 @@
 
   const loadQuestions = async url => {
     loading = true;
-    const questionsPromise = fetch(`http://localhost:3000/text?url=${url}`);
+    const questionsPromise = fetch(
+      `${import.meta.env.VITE_SERVER_URL}/text?url=${url}`
+    );
     const questionsResponse = await questionsPromise;
     data = await questionsResponse.json();
     $questions = data.questions;
@@ -25,6 +27,14 @@
   let loading = false;
 
   function handleFormSubmit() {
+    loadQuestions(url);
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has("url")) {
+    const searchURL = urlParams.get("url");
+    url = searchURL;
+
     loadQuestions(url);
   }
 </script>
