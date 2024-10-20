@@ -2,20 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --red: hsla(345, 45%, 39%, 1);
-  --dark-blue: hsla(233, 37%, 17%, 1);
-  --light-blue: hsla(181, 49%, 43%, 1);
-  --green: hsla(154, 53%, 57%, 1);
-  --cream: hsla(113, 100%, 98%, 1);
+html,
+body,
+#app {
+  @apply min-h-full;
 }
 
 body {
-  @apply font-serif;
+  @apply font-serif bg-amber-200;
+}
+
+::selection {
+  @apply bg-amber-950 text-amber-200;
 }
 
 h3 {
-  @apply text-2xl font-bold mt-4 text-blue-950;
+  @apply text-2xl font-bold mt-4 text-amber-950;
 }
 
 p {
@@ -23,5 +25,11 @@ p {
 }
 
 a {
-  @apply text-cyan-700 hover:text-cyan-500;
+  @apply text-amber-800 hover:text-blue-600;
+}
+
+img {
+  max-width: 90%;
+  margin: auto;
+  @apply my-7;
 }

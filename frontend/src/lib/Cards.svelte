@@ -9,31 +9,18 @@
   /** @type { import('svelte/store').Writable<{ front: string; back: string; box: number }[]>}*/
   export let questions;
 
-  // let filteredQuestions = $questions;
-  // $: filteredQuestions = $questions.slice(0, range + 1);
-
   /**
    * Filters questions
    * @param qns
    * @returns {{ front: string; back: string; box: number }[]}
    */
-
-  // const filteredQuestions = qns =>
-  //   qns
-  //     .filter(qn =>
-  //       range === 1
-  //         ? qn.box === 0
-  //         : (range % Math.pow(2, qn.box)) + qn.box === 0
-  //     )
-  //     .slice(0, range + 1);
-
   const filteredQuestions = qns =>
     qns
       .filter(qn => space[range - 1].boxes.includes(qn.box))
       .slice(0, range + 1);
 
   let filtered = [];
-  $: filtered = filteredQuestions($questions);
+  $: filtered = filteredQuestions($questions).slice(0, range + 1);
 
   $: console.log(range - 1, filtered);
 </script>
@@ -41,7 +28,7 @@
 <div class="card-container">
   {#if filtered}
     <div
-      class="card rounded bg-yellow-200 flex items-center justify-center w-full"
+      class="card rounded bg-amber-300 flex items-center justify-center w-full text-2xl text-amber-950"
     >
       All done!
     </div>
@@ -52,15 +39,16 @@
         {card}
         on:userForgot={() => {
           card.box = 0;
-          filtered.splice(filtered.indexOf(card), 1);
-          $questions[$questions.indexOf(card)].box = 0;
+          const i = $questions.indexOf(card);
+          $questions[i].box = 0;
+          // const spliced = $questions.splice(i, 1);
           $questions = $questions;
         }}
         on:userRemembered={() => {
           card.box++;
           $questions[$questions.indexOf(card)].box++;
-          filtered.splice(filtered.indexOf(card), 1);
           $questions = $questions;
+          filtered.splice(filtered.indexOf(card), 1);
         }}
       />
     </div>
@@ -73,6 +61,7 @@
     position: relative;
     min-height: max-content;
     height: 15rem;
+    @apply my-5 shadow-md shadow-gray-400;
   }
 
   .card {
