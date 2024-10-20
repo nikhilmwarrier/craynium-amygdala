@@ -31,7 +31,7 @@ Return: list[Card] (max_length: 3)
 
 Identify useful information from the following text and use it to generate succinct spaced-repetition JSON Cards, following the given schema:
 
-Note that the output array MUST HAVE ONLY THREE Cards.
+Note that the output array MUST HAVE ONLY THREE Cards. DO NOT GENERATE MORE THAN THREE Cards.
 
 ${text}`,
       },
